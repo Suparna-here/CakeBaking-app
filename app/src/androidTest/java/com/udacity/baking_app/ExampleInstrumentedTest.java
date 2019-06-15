@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.udacity.popular_movies_stage1", appContext.getPackageName());
+        assertEquals("com.udacity.baking_app", appContext.getPackageName());
     }
 }

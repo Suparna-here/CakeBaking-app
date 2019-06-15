@@ -5,11 +5,11 @@ import android.arch.lifecycle.ViewModelProvider;
 
 import com.udacity.baking_app.data.TheRecipeDBRepository;
 
-public class RecipeDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory{
+public class RecipeDetailViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private final TheRecipeDBRepository mRepository;
     private final long mRecipId;
 
-    public RecipeDetailViewModelFactory(TheRecipeDBRepository repository, long recipeId) {//
+    public RecipeDetailViewModelFactory(TheRecipeDBRepository repository, long recipeId) {
         this.mRepository = repository;
         this.mRecipId = recipeId;
     }
@@ -17,6 +17,6 @@ public class RecipeDetailViewModelFactory extends ViewModelProvider.NewInstanceF
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new RecipeDetailActivityViewModel(mRepository, mRecipId); //
+        return (T) new RecipeDetailActivityViewModel(mRepository, mRecipId);
     }
 }

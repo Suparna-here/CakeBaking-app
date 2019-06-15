@@ -26,74 +26,10 @@ public class IngredientAppWidgetProvider extends AppWidgetProvider {
     public static final String LOG_TAG = IngredientAppWidgetProvider.class.getSimpleName();
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, long recipeId, String recipeName, int appWidgetId) {
-     /* RemoteViews rv;
-        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        int width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-
-        if (width < 200) {
-            rv = getSinglePlantRemoteView(context, imgRes, plantId, canWater);
-        } else {
-            RemoteViews rv = getIngredientListRemoteView(context);
-        }*/
         RemoteViews rv = getIngredientListRemoteView(context, recipeName);
         appWidgetManager.updateAppWidget(appWidgetId, rv);
-       /* CharSequence widgetText = context.getString(R.string.add_widget);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_layout);
-        views.setTextViewText(R.id.recipe_name_text_view, widgetText);
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);*/
     }
-
-    /**
-     * Creates and returns the RemoteViews to be displayed in the single plant mode widget
-     *
-     * @param context   The context
-     * @param imgRes    The image resource of the plant image to be displayed
-     * @param plantId   The database plant Id for watering button functionality
-     * @param canWater Boolean to either show/hide the water drop
-     * @return The RemoteViews for the single plant mode widget
-     */
-    /*private static RemoteViews getSinglePlantRemoteView(Context context, int imgRes, long plantId, boolean canWater) {
-        // Set the click handler to open the DetailActivity for plant ID,
-        // or the MainActivity if plant ID is invalid
-        Intent intent;
-        if (plantId == PlantContract.INVALID_PLANT_ID) {
-            intent = new Intent(context, MainActivity.class);
-        } else { // Set on click to open the corresponding detail activity
-            Log.d(PlantWidgetProvider.class.getSimpleName(), "plantId=" + plantId);
-            intent = new Intent(context, PlantDetailActivity.class);
-            intent.putExtra(PlantDetailActivity.EXTRA_PLANT_ID, plantId);
-        }
-        // Create the TaskStackBuilder and add the intent, which inflates the back stack
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntentWithParentStack(intent);
-        // Get the PendingIntent containing the entire back stack
-        PendingIntent pendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.plant_widget);
-        // Update image
-        views.setImageViewResource(R.id.widget_plant_image, imgRes);
-        // Widgets allow click handlers to only launch pending intents
-        views.setOnClickPendingIntent(R.id.widget_plant_image, pendingIntent);
-        // Update plant ID text
-        views.setTextViewText(R.id.widget_plant_name, String.valueOf(plantId));
-        // Show/Hide the water drop button
-        if (canWater) views.setViewVisibility(R.id.widget_water_button, View.VISIBLE);
-        else views.setViewVisibility(R.id.widget_water_button, View.INVISIBLE);
-        // Add the wateringservice click handler
-        Intent wateringIntent = new Intent(context, PlantWateringService.class);
-        wateringIntent.setAction(PlantWateringService.ACTION_WATER_PLANT);
-        wateringIntent.putExtra(PlantWateringService.EXTRA_PLANT_ID, plantId);
-
-        PendingIntent wateringPendingIntent = PendingIntent.getService(context, 0, wateringIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        views.setOnClickPendingIntent(R.id.widget_water_button, wateringPendingIntent);
-        // Instruct the widget manager to update the widget
-        return views;
-    }*/
 
     /**
      * Creates and returns the RemoteViews to be displayed in the GridView mode widget
@@ -103,8 +39,8 @@ public class IngredientAppWidgetProvider extends AppWidgetProvider {
      */
     private static RemoteViews getIngredientListRemoteView(Context context, String recipeName) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ingredient_app_widget);
-        if(!recipeName.equals(ServiceGenerator.INVALID_RECIPE_NAME))
-        views.setTextViewText(R.id.tv_recipe_name, recipeName);
+        if (!recipeName.equals(ServiceGenerator.INVALID_RECIPE_NAME))
+            views.setTextViewText(R.id.tv_recipe_name, recipeName);
         // Set the GridWidgetService intent to act as the adapter for the GridView
         Intent intent = new Intent(context, ListWidgetService.class);
         views.setRemoteAdapter(R.id.widget_list_view, intent);
@@ -117,7 +53,7 @@ public class IngredientAppWidgetProvider extends AppWidgetProvider {
         // Get the PendingIntent containing the entire back stack
         PendingIntent appPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//      PendingIntent appPendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         views.setPendingIntentTemplate(R.id.widget_list_view, appPendingIntent);
         // Handle empty gardens
         views.setEmptyView(R.id.widget_list_view, R.id.empty_view);
@@ -128,6 +64,9 @@ public class IngredientAppWidgetProvider extends AppWidgetProvider {
         long recipeId = InjectorUtils.getSavedIngredientRecipeId(context);
         String recipeName = InjectorUtils.getSavedIngredientRecipeName(context);
         mIngredientsList = ingredientsList;
+        if(ingredientsList==null) {
+            recipeName = "";
+        }
         if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: " + recipeName);
         // There may be multiple widgets active, so update all of them

@@ -15,21 +15,10 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--tools:context="com.udacity.popular_movies_stage2.ui.list.MainActivity"-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_recipes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <!--TextView
-        android:id="@+id/tv_movie_error_message_display"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="@string/error_message"
-        android:textSize="20sp"
-        android:visibility="invisible" />-->
 
     <TextView
         android:id="@+id/tv_recipe_error_message_display"
@@ -38,6 +27,7 @@
         android:padding="16dp"
         android:text="@string/recipe_list_error_message"
         android:textSize="20sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:text="error"/>
 
 </FrameLayout>

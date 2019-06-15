@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
     app:srcCompat="@color/cardview_shadow_start_color"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -14,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="8dp"
         app:layout_constraintVertical_bias="0.5"
         card_view:cardBackgroundColor="@color/colorPrimary"
         card_view:cardCornerRadius="4dp"
@@ -38,44 +36,35 @@
 
             <TextView
                 android:id="@+id/tv_dish_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:layout_toEndOf="@+id/iv_dish_image"
+                android:layout_toRightOf="@+id/iv_dish_image"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold|italic"
                 android:layout_marginTop="20dp"
-                android:fontFamily="serif"
-                android:layout_toEndOf="@+id/iv_dish_image"
-                android:layout_toRightOf="@+id/iv_dish_image"/>
+                android:layout_marginBottom="20dp"
+                android:textColor="@android:color/white"
+                style="@style/textHeadingLabelStyle"
+                tools:text="Brownies"/>
+
             <TextView
                 android:id="@+id/tv_servings_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_dish_name"
                 android:layout_toEndOf="@+id/iv_dish_image"
                 android:layout_toRightOf="@+id/iv_dish_image"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="serif"
-                android:textColor="@android:color/black"
+                style="@style/textImportantLabelStyle"
                 android:text="@string/servings"
                 tools:text="SSSSSSSSS"/>
+
             <TextView
                 android:id="@+id/tv_servings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_dish_name"
                 android:layout_toEndOf="@+id/tv_servings_label"
                 android:layout_toRightOf="@+id/tv_servings_label"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="serif"
-                android:textColor="@android:color/black"
+                style="@style/textImportantText"
                 tools:text="18"/>
 
         </RelativeLayout>

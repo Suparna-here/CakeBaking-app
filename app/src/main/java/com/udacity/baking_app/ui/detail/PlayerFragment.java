@@ -68,14 +68,11 @@ public class PlayerFragment extends Fragment {
     private ImageView mNoVideoUrl;
     private boolean twoPane;
 
-    //    private SharedViewModel model;
-
     public static final String LOG_TAG = PlayerFragment.class.getSimpleName();
 
     // Override onAttach to make sure that the container activity has implemented the callback
     @Override
     public void onAttach(Context context) {
-//        model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
         super.onAttach(context);
     }
 
@@ -89,20 +86,10 @@ public class PlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        recipe_Id=getArguments().getLong(ServiceGenerator.RECIPE_ID);
         Bundle bundle = getArguments();
         if (bundle != null) {
             twoPane = bundle.getBoolean(ServiceGenerator.IS_TWO_PANE);
-//        if(!twoPane)
             selectedStep = (Step) bundle.getParcelableArrayList(EXTRA_DATA).get(0);
-     /*   else{
-            model.getSelected().observe(this, new Observer<Step>() {
-                @Override
-                public void onChanged(@Nullable Step step) {
-                    selectedStep=step;
-                }
-            });
-        }*/
         }
         final View rootView = inflater.inflate(R.layout.fragment_player, container, false);
         componentListener = new ComponentListener();
@@ -169,26 +156,8 @@ public class PlayerFragment extends Fragment {
             player.seekTo(currentWindow, playbackPosition);
         }
 
-//            Uri uri = Uri.parse(step.getVideoURL());
         MediaSource mediaSource = buildMediaSource(Uri.parse(videoUrl));
         player.prepare(mediaSource, true, false);
-
-       /* if (player == null) {
-            // a factory to create an AdaptiveVideoTrackSelection
-            TrackSelection.Factory adaptiveTrackSelectionFactory =
-                    new AdaptiveTrackSelection.Factory(BANDWIDTH_METER);
-            // using a DefaultTrackSelector with an adaptive video selection factory
-            player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(getActivity()),
-                    new DefaultTrackSelector(adaptiveTrackSelectionFactory), new DefaultLoadControl());
-            player.addListener(componentListener);
-            player.addVideoDebugListener(componentListener);
-            player.addAudioDebugListener(componentListener);
-            playerView.setPlayer(player);
-            player.setPlayWhenReady(playWhenReady);
-            player.seekTo(currentWindow, playbackPosition);
-        }
-        MediaSource mediaSource = buildMediaSource(Uri.parse(getString(R.string.media_url_dash)));
-        player.prepare(mediaSource, true, false);*/
     }
 
     private void releasePlayer() {
@@ -200,17 +169,6 @@ public class PlayerFragment extends Fragment {
             player.release();
             player = null;
         }
-
-          /*if (player != null) {
-            playbackPosition = player.getCurrentPosition();
-            currentWindow = player.getCurrentWindowIndex();
-            playWhenReady = player.getPlayWhenReady();
-            player.removeListener(componentListener);
-            player.removeVideoDebugListener(componentListener);
-            player.removeAudioDebugListener(componentListener);
-            player.release();
-            player = null;
-        }*/
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -219,18 +177,12 @@ public class PlayerFragment extends Fragment {
                         DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
                         DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, true)).
                 createMediaSource(uri);
-
-       /* DataSource.Factory manifestDataSourceFactory = new DefaultHttpDataSourceFactory("ua");
-        DashChunkSource.Factory dashChunkSourceFactory = new DefaultDashChunkSource.Factory(
-                new DefaultHttpDataSourceFactory("ua", BANDWIDTH_METER));
-        return new DashMediaSource.Factory(dashChunkSourceFactory, manifestDataSourceFactory)
-                .createMediaSource(uri);*/
     }
 
     @SuppressLint("InlinedApi")
     private void hideSystemUi() {
         playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 
                /* | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -238,19 +190,6 @@ public class PlayerFragment extends Fragment {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION*/);
     }
-
-    /*@Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(SORT_KEY, sort_by);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState!=null)
-        sort_by=savedInstanceState.getString(SORT_KEY);
-        super.onActivityCreated(savedInstanceState);
-    }*/
 
     private class ComponentListener extends Player.DefaultEventListener {
         @Override
@@ -280,7 +219,7 @@ public class PlayerFragment extends Fragment {
 
 
     /**
-     * This method will make the View for the movie data visible and
+     * This method will make the View for the recipe data visible and
      * hide the error message.
      * <p>
      * Since it is okay to redundantly set the visibility of a View, we don't
@@ -288,7 +227,6 @@ public class PlayerFragment extends Fragment {
      */
     private void showVideoDataView() {
         // First, make sure the error is invisible
-//        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mNoVideoUrl.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         playerView.setVisibility(View.VISIBLE);
@@ -299,23 +237,12 @@ public class PlayerFragment extends Fragment {
      * View.
      */
     private void showErrorMessage() {
-//        if (sort_by.equals(ServiceGenerator.ORDER_POPULARITY) || sort_by.equals(ServiceGenerator.ORDER_TOPRATED)) {
         // First, hide the currently visible data
         if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: mErrorMessageDisplay ");
-        mNoVideoUrl.setVisibility(View.VISIBLE);
         playerView.setVisibility(View.GONE);
         // Then, show the internet error
-           /*  mErrorMessageDisplay.setVisibility(View.VISIBLE);
-       } else if (sort_by.equals(ServiceGenerator.ORDER_FAVOURITE)) {
-            if(ServiceGenerator.LOCAL_LOGD)
-                Log.d(LOG_TAG, "su: mMovieFavouriteErrorMessageDisplay " + sort_by);
-            // First, hide the currently visible data and internet connection error message
-            mRecyclerView.setVisibility(View.INVISIBLE);
-            mErrorMessageDisplay.setVisibility(View.INVISIBLE);
-            // Then, show the Favourite movie data error
-            mMovieFavouriteErrorMessageDisplay.setVisibility(View.VISIBLE);
-        }*/
+        mNoVideoUrl.setVisibility(View.VISIBLE);
     }
 
 }

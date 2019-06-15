@@ -30,7 +30,7 @@ public class RecipeIngredientService extends IntentService {
     }
 
     /**
-     * Starts this service to perform action Foo with the given parameters. If
+     * Starts this service to perform action with the given parameters. If
      * the service is already performing a task this action will be queued.
      *
      * @see IntentService
@@ -90,22 +90,11 @@ public class RecipeIngredientService extends IntentService {
     }
 
     /**
-     * Handle action Foo in the provided background thread with the provided
+     * Handle action in the provided background thread with the provided
      * parameters.
      */
     private void handleActionRecipeIngredients( ArrayList<Ingredient> ingredientsList) {
-      /*  Uri SINGLE_PLANT_URI = ContentUris.withAppendedId(
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build(), plantId);
-        ContentValues contentValues = new ContentValues();
-        long timeNow = System.currentTimeMillis();
-        contentValues.put(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME, timeNow);
-        // Update only if that plant is still alive
-        getContentResolver().update(
-                SINGLE_PLANT_URI,
-                contentValues,
-                PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME + ">?",
-                new String[]{String.valueOf(timeNow - PlantUtils.MAX_AGE_WITHOUT_WATER)});
-        // Always update widgets after watering plants*/
+        // Always update widgets
         if(ServiceGenerator.LOCAL_LOGD)
         Log.d(LOG_TAG,"su:"+"startActionUpdateRecipeWidgets" );
 
@@ -114,39 +103,11 @@ public class RecipeIngredientService extends IntentService {
 
 
     private void handleActionUpdateRecipeWidgets(ArrayList<Ingredient> ingredientsList) {
-        //Query to get the plant that's most in need for water (last watered)
-        /*Uri PLANT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_PLANTS).build();
-        Cursor cursor = getContentResolver().query(
-                PLANT_URI,
-                null,
-                null,
-                null,
-                PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME
-        );
-        // Extract the plant details
-        int imgRes = R.drawable.grass; // Default image in case our garden is empty
-        boolean canWater = false; // Default to hide the water drop button
-        long plantId = INVALID_PLANT_ID;
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            int idIndex = cursor.getColumnIndex(PlantContract.PlantEntry._ID);
-            int createTimeIndex = cursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_CREATION_TIME);
-            int waterTimeIndex = cursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_LAST_WATERED_TIME);
-            int plantTypeIndex = cursor.getColumnIndex(PlantContract.PlantEntry.COLUMN_PLANT_TYPE);
-            plantId = cursor.getLong(idIndex);
-            long timeNow = System.currentTimeMillis();
-            long wateredAt = cursor.getLong(waterTimeIndex);
-            long createdAt = cursor.getLong(createTimeIndex);
-            int plantType = cursor.getInt(plantTypeIndex);
-            cursor.close();
-            canWater = (timeNow - wateredAt) > PlantUtils.MIN_AGE_BETWEEN_WATER &&
-                    (timeNow - wateredAt) < PlantUtils.MAX_AGE_WITHOUT_WATER;
-            imgRes = PlantUtils.getPlantImageRes(this, timeNow - createdAt, timeNow - wateredAt, plantType);
-        }*/
+        //Update widgets
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, IngredientAppWidgetProvider.class));
         //Trigger data update to handle the ListView widgets and force a data refresh
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view); // ingredient_app_widget
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list_view);
         //Now update all widgets
         IngredientAppWidgetProvider.updateRecipeWidgets(this, appWidgetManager, appWidgetIds, ingredientsList);
     }

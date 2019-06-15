@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.udacity.baking_app.R;
 import com.udacity.baking_app.data.database.Ingredient;
@@ -60,17 +61,16 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
     private long recipe_Id;
     private String recipe_Name;
     private boolean twoPane;
-    //    private TextView mErrorMessageDisplay;
+
     private TextView mRecipeErrorMessageDisplay;
-    //    private SharedViewModel model;
     private PlayerFragment playerFragment;
+
     public static final String LOG_TAG = RecipeDetailMasterListFragment.class.getSimpleName();
 
 
     // Override onAttach to make sure that the container activity has implemented the callback
     @Override
     public void onAttach(Context context) {
-//        model= ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
         super.onAttach(context);
     }
 
@@ -84,18 +84,15 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle=getArguments();
+        Bundle bundle = getArguments();
         recipe_Id = bundle.getLong(ServiceGenerator.RECIPE_ID);
         twoPane = bundle.getBoolean(ServiceGenerator.IS_TWO_PANE);
-        recipe_Name=bundle.getString(ServiceGenerator.RECIPE_NAME);
+        recipe_Name = bundle.getString(ServiceGenerator.RECIPE_NAME);
 
         final View rootView = inflater.inflate(R.layout.fragment_master_list_detail, container, false);
         mIngredientView = (TextView) rootView.findViewById(R.id.tv_ingredients_list);
-        mIngredientAddToWidgetButton=(ImageButton)rootView.findViewById(R.id.iv_favourite_button);
+        mIngredientAddToWidgetButton = (ImageButton) rootView.findViewById(R.id.iv_favourite_button);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_recipe_steps);
-
-        /* This TextView is used to display errors and will be hidden if there are no errors */
-//        mErrorMessageDisplay = (TextView) rootView.findViewById(R.id.tv_movie_error_message_display);
 
         mRecipeErrorMessageDisplay = (TextView) rootView.findViewById(R.id.tv_recipe_error_message_display);
 
@@ -126,26 +123,10 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
         RecipeDetailViewModelFactory detailViewModelFactory = InjectorUtils.provideRecipeDetailListViewModelFactory(getActivity(), recipe_Id);
         mViewModel = ViewModelProviders.of(getActivity(), detailViewModelFactory).get(RecipeDetailActivityViewModel.class);
 
-
-//        setRecipesBasedOnSortOrder(sort_by);
-
         loadRecipeDataInViewModel();
         // Return the root view
         return rootView;
     }
-
-    /*@Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(SORT_KEY, sort_by);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState!=null)
-        sort_by=savedInstanceState.getString(SORT_KEY);
-        super.onActivityCreated(savedInstanceState);
-    }*/
 
     private void loadRecipeDataInViewModel() {
         LiveData<List<Ingredient>> ingredientList = mViewModel.getIngredientList();
@@ -163,21 +144,11 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
                 mIngredientAddToWidgetButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Toast.makeText(getActivity(), R.string.add_ingredient_to_widget, Toast.LENGTH_LONG).show();
                         InjectorUtils.setSavedIngredientDetails(getActivity(), recipe_Id, recipe_Name);
                         RecipeIngredientService.startActionUpdateIngredient(getActivity(), ingredientList);
                     }
                 });
-                // Show the movie list or the loading screen based on whether the movie data exists
-                // and is loaded
-                /*if (stepList != null && stepList.size() != 0) {
-                    if(ServiceGenerator.LOCAL_LOGD)
-                        Log.d(LOG_TAG, "su: mRecyclerView mPosition");
-                    showDetailListDataView();
-                } else {
-                    if(ServiceGenerator.LOCAL_LOGD)
-                        Log.d(LOG_TAG, "su: showErrorMessage");
-                    showErrorMessage();
-                }*/
             }
         });
 
@@ -189,24 +160,13 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
                 if (ServiceGenerator.LOCAL_LOGD)
                     Log.d(LOG_TAG, "su: swap Steps of Recipe ");
                 mRecipeStepDetailListDBAdapter.setStepDataOfRecipe(stepList);
-              /*  // Show the movie list or the loading screen based on whether the movie data exists
-                // and is loaded
-                if (stepList != null && stepList.size() != 0) {
-                    if(ServiceGenerator.LOCAL_LOGD)
-                        Log.d(LOG_TAG, "su: mRecyclerView mPosition");
-                    showDetailListDataView();
-                } else {
-                    if(ServiceGenerator.LOCAL_LOGD)
-                        Log.d(LOG_TAG, "su: showErrorMessage");
-                    showErrorMessage();
-                }*/
             }
         });
     }
 
 
     /**
-     * This method will make the View for the movie data visible and
+     * This method will make the View for the recipe data visible and
      * hide the error message.
      * <p>
      * Since it is okay to redundantly set the visibility of a View, we don't
@@ -214,7 +174,6 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
      */
     private void showDetailListDataView() {
         // First, make sure the error is invisible
-//        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecipeErrorMessageDisplay.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         mRecyclerView.setVisibility(View.VISIBLE);
@@ -225,37 +184,23 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
      * View.
      */
     private void showErrorMessage() {
-//        if (sort_by.equals(ServiceGenerator.ORDER_POPULARITY) || sort_by.equals(ServiceGenerator.ORDER_TOPRATED)) {
         // First, hide the currently visible data
         if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: mErrorMessageDisplay ");
         mRecyclerView.setVisibility(View.INVISIBLE);
         mRecipeErrorMessageDisplay.setVisibility(View.VISIBLE);
-        // Then, show the internet error
-        /* mErrorMessageDisplay.setVisibility(View.VISIBLE);
-        } else if (sort_by.equals(ServiceGenerator.ORDER_FAVOURITE)) {
-            if(ServiceGenerator.LOCAL_LOGD)
-                Log.d(LOG_TAG, "su: mRecipeErrorMessageDisplay " + sort_by);
-            // First, hide the currently visible data and internet connection error message
-            mRecyclerView.setVisibility(View.INVISIBLE);
-            mErrorMessageDisplay.setVisibility(View.INVISIBLE);
-            // Then, show the Favourite movie data error
-            mRecipeErrorMessageDisplay.setVisibility(View.VISIBLE);
-        }*/
     }
 
 
     //On Clicking GridItem, this method is called.
     @Override
     public void itemClickListener(final Step step) {
-//        mViewModel.setFavouriteMovieById(recipe.getId());
         if (twoPane) {
             ArrayList<Step> stepList = new ArrayList<Step>();
             stepList.add(step);
             if (ServiceGenerator.LOCAL_LOGD)
                 Log.d(LOG_TAG, "su: itemClickListener " + step.getStep_Id());
             Bundle bundleFragment = new Bundle();
-//            bundleFragment.putLong(ServiceGenerator.RECIPE_ID, recipe_Id);
             bundleFragment.putBoolean(ServiceGenerator.IS_TWO_PANE, twoPane);
             bundleFragment.putParcelableArrayList(EXTRA_DATA, stepList);
 
@@ -264,7 +209,7 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
             playerFragment.setArguments(bundleFragment);
             fragmentManager.beginTransaction()
                     .replace(R.id.video_container_tab, playerFragment).commit();
-//            model.select(step);
+
         } else {
             ArrayList<Step> stepList = new ArrayList<Step>();
             stepList.add(step);
@@ -276,7 +221,6 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
 
             Intent intent = new Intent(getActivity(), PlayerActivity.class);
             intent.putExtra(EXTRA_BUNDLE, bundle);
-
             startActivity(intent);
         }
     }

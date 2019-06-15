@@ -17,14 +17,13 @@ import java.util.List;
 
 
 /**
- * {@link RecipeDBAdapter} exposes a list of movie details to a
+ * {@link RecipeDBAdapter} exposes a list of recipe details to a
  * {@link android.support.v7.widget.RecyclerView}
  */
-public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.RecipeDBAdapterViewHolder>{
+public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.RecipeDBAdapterViewHolder> {
     private static final int VIEW_TYPE_REGULAR = 0;
-    private static final int VIEW_TYPE_FAVOURITE = 1;
-    private List<Recipe> mRecipeData;
 
+    private List<Recipe> mRecipeData;
 
 
     private final RecipeDBAdapterOnClickHandler mClickHandler;
@@ -38,20 +37,19 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
     }
 
     /**
-     * Cache of the children views for a movie grid item.
+     * Cache of the children views for a recipe list/grid item.
      */
-    public class RecipeDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final ImageView dishImageIV;
         public final TextView dishNameTV;
         public final TextView servingsTV;
 
 
-
         public RecipeDBAdapterViewHolder(View view) {
             super(view);
             dishImageIV = (ImageView) view.findViewById(R.id.iv_dish_image);
-            dishNameTV =(TextView)view.findViewById(R.id.tv_dish_name);
-            servingsTV=(TextView)view.findViewById(R.id.tv_servings);
+            dishNameTV = (TextView) view.findViewById(R.id.tv_dish_name);
+            servingsTV = (TextView) view.findViewById(R.id.tv_servings);
 
             // Call setOnClickListener on the view passed into the constructor (use 'this' as the OnClickListener)
             view.setOnClickListener(this);
@@ -75,6 +73,7 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
 
     /**
      * Returns the the layout id depending on whether the movie item is a normal item or the favourite movie item.
+     *
      * @param viewType
      * @return
      */
@@ -93,14 +92,13 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
     @Override
     public void onBindViewHolder(@NonNull RecipeDBAdapterViewHolder holder, int position) {
         Recipe recipe = mRecipeData.get(position);
-        String posteUrl= recipe.getImage();
-        if(!TextUtils.isEmpty(posteUrl))
-        Picasso.get()
-               .load(posteUrl)
-               .placeholder(R.drawable.ic_cake_black_150dp)
-               .into(holder.dishImageIV);
+        String posteUrl = recipe.getImage();
+        if (!TextUtils.isEmpty(posteUrl))
+            Picasso.get()
+                    .load(posteUrl)
+                    .placeholder(R.drawable.ic_cake_black_150dp)
+                    .into(holder.dishImageIV);
         holder.dishNameTV.setText(recipe.getName());
-
         holder.servingsTV.setText(Integer.toString(recipe.getServings()));
     }
 
@@ -113,13 +111,11 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
     @Override
     public int getItemViewType(int position) {
         return VIEW_TYPE_REGULAR;
-        /*if(sort_by.equals(ServiceGenerator.ORDER_POPULARITY) || sort_by.equals(ServiceGenerator.ORDER_TOPRATED))
-            return VIEW_TYPE_FAVOURITE;*/
     }
 
     /*
      * This method is used to set the movie data on a RecipeDBAdapter
-     * @param recipeData The new movie data to be displayed.
+     * @param recipeData The new recipe data to be displayed.
      */
     public void setRecipeData(List<Recipe> recipeData) {
         mRecipeData = recipeData;

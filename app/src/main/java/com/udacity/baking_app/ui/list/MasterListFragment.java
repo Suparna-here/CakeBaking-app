@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.udacity.baking_app.R;
 import com.udacity.baking_app.data.database.Recipe;
 import com.udacity.baking_app.data.network.ServiceGenerator;
+import com.udacity.baking_app.idlingResource.SimpleIdlingResource;
 import com.udacity.baking_app.ui.detail.RecipeDetailListActivity;
 import com.udacity.baking_app.utils.InjectorUtils;
 
@@ -45,15 +46,14 @@ import static com.udacity.baking_app.data.network.ServiceGenerator.EXTRA_BUNDLE;
 import static com.udacity.baking_app.data.network.ServiceGenerator.EXTRA_DATA;
 
 
-// This fragment displays all of the AndroidMe images in one large list
-// The list appears as a grid of images
+// This fragment displays all of the recipes in one large list
+// The list appears as a list/grid of images
 public class MasterListFragment extends Fragment implements RecipeDBAdapter.RecipeDBAdapterOnClickHandler {
     private RecyclerView mRecyclerView;
     private RecipeDBAdapter mRecipeDBAdapter;
     private MainActivityViewModel mViewModel;
+    private SimpleIdlingResource idlingResource;
 
-
-//    private TextView mErrorMessageDisplay;
     private TextView mRecipeErrorMessageDisplay;
 
     public static final String LOG_TAG = MasterListFragment.class.getSimpleName();
@@ -71,7 +71,7 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
     }
 
 
-    // Inflates the GridView of all AndroidMe images
+    // Inflates the GridView or ListView with recipes
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,9 +79,6 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
         final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_recipes);
-
-        /* This TextView is used to display errors and will be hidden if there are no errors */
-//        mErrorMessageDisplay = (TextView) rootView.findViewById(R.id.tv_movie_error_message_display);
 
         mRecipeErrorMessageDisplay = (TextView) rootView.findViewById(R.id.tv_recipe_error_message_display);
         final int SPAN_COUNT = getResources().getInteger(R.integer.gallery_columns);
@@ -98,56 +95,55 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
 
         // Pass in 'this' as the RecipeDBAdapterOnClickHandler
         /*
-         * The RecipeDBAdapter is responsible for linking movie data with the Views that
-         * will end up displaying our movie data.
+         * The RecipeDBAdapter is responsible for linking recipe data with the Views that
+         * will end up displaying our recipe data.
          */
         mRecipeDBAdapter = new RecipeDBAdapter(this);
 
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mRecipeDBAdapter);
 
+        idlingResource = (SimpleIdlingResource) ((MainActivity) getActivity()).getIdlingResource();
         /*
-         * The ProgressBar that will indicate to the user that we are loading data. It will be
-         * hidden when no data is loading.
+         * The IdlingResource is null in production as set by the @Nullable annotation which means
+         * the value is allowed to be null.
+         *
+         * If the idle state is true, Espresso can perform the next action.
+         * If the idle state is false, Espresso will wait until it is true before
+         * performing the next action.
          */
+        if (idlingResource != null) {
+            idlingResource.setIdleState(false);
+        }
+
         MainViewModelFactory mainViewModelFactory = InjectorUtils.provideMainActivityViewModelFactory(getActivity());
         mViewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainActivityViewModel.class);
 
         loadRecipeDataInViewModel();
+        if (idlingResource != null) {
+            idlingResource.setIdleState(true);
+        }
+
         // Return the root view
         return rootView;
     }
-
-    /* @Override
-   public void onSaveInstanceState(Bundle outState) {
-        outState.putString(SORT_KEY, sort_by);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        if(savedInstanceState!=null)
-        sort_by=savedInstanceState.getString(SORT_KEY);
-        super.onActivityCreated(savedInstanceState);
-    }*/
-
 
     private void loadRecipeDataInViewModel() {
         LiveData<List<Recipe>> recipesList = mViewModel.getRecipesList();
         recipesList.observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> recipeList) {
-                if(ServiceGenerator.LOCAL_LOGD)
-                    Log.d(LOG_TAG, "su: swap Recipes sort_by ");
+                if (ServiceGenerator.LOCAL_LOGD)
+                    Log.d(LOG_TAG, "su: load Recipes ");
                 mRecipeDBAdapter.setRecipeData(recipeList);
-                // Show the movie list or the loading screen based on whether the movie data exists
+                // Show the recipe list or the error message based on whether the recipe data exists
                 // and is loaded
                 if (recipeList != null && recipeList.size() != 0) {
-                    if(ServiceGenerator.LOCAL_LOGD)
+                    if (ServiceGenerator.LOCAL_LOGD)
                         Log.d(LOG_TAG, "su: show mRecyclerView");
                     showRecipeDataView();
                 } else {
-                    if(ServiceGenerator.LOCAL_LOGD)
+                    if (ServiceGenerator.LOCAL_LOGD)
                         Log.d(LOG_TAG, "su: showErrorMessage");
                     showErrorMessage();
                 }
@@ -165,9 +161,8 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
      */
     private void showRecipeDataView() {
         // First, make sure the error is invisible
-//        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecipeErrorMessageDisplay.setVisibility(View.INVISIBLE);
-        // Then, make sure the movie data is visible
+        // Then, make sure the recipe data is visible
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
@@ -176,36 +171,21 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
      * View.
      */
     private void showErrorMessage() {
-//        if (sort_by.equals(ServiceGenerator.ORDER_POPULARITY) || sort_by.equals(ServiceGenerator.ORDER_TOPRATED)) {
-            // First, hide the currently visible data
-            if(ServiceGenerator.LOCAL_LOGD)
-                Log.d(LOG_TAG, "su: mErrorMessageDisplay ");
-            mRecyclerView.setVisibility(View.INVISIBLE);
-            mRecipeErrorMessageDisplay.setVisibility(View.VISIBLE);
-            // Then, show the internet error
-           /*  mErrorMessageDisplay.setVisibility(View.VISIBLE);
-       } else if (sort_by.equals(ServiceGenerator.ORDER_FAVOURITE)) {
-            if(ServiceGenerator.LOCAL_LOGD)
-                Log.d(LOG_TAG, "su: mRecipeErrorMessageDisplay " + sort_by);
-            // First, hide the currently visible data and internet connection error message
-            mRecyclerView.setVisibility(View.INVISIBLE);
-            mErrorMessageDisplay.setVisibility(View.INVISIBLE);
-            // Then, show the Favourite movie data error
-            mRecipeErrorMessageDisplay.setVisibility(View.VISIBLE);
-        }*/
+        // First, hide the currently visible data
+        if (ServiceGenerator.LOCAL_LOGD)
+            Log.d(LOG_TAG, "su: mErrorMessageDisplay ");
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mRecipeErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
 
-    //On Clicking GridItem, this method is called.
+    //On Clicking GridItem/ ListItem, this method is called.
     @Override
     public void itemClickListener(final Recipe recipe) {
-//        mViewModel.setFavouriteMovieById(recipe.getId());
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         recipeList.add(recipe);
-       /* ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
-        ingredientList.addAll(recipe.getIngredients());*/
 
-        if(ServiceGenerator.LOCAL_LOGD)
+        if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: itemClickListener " + recipe.getId());
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(EXTRA_DATA, recipeList);

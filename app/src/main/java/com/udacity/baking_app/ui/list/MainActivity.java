@@ -1,23 +1,35 @@
 package com.udacity.baking_app.ui.list;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.udacity.baking_app.R;
 import com.udacity.baking_app.data.network.ServiceGenerator;
+import com.udacity.baking_app.idlingResource.SimpleIdlingResource;
 
 public class MainActivity extends AppCompatActivity {
 
     private MasterListFragment masterListFragment;
 
-    private static final String SORT_KEY = "Ordering_Sequence";
-    private String sort_by;
-
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipes);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        masterListFragment= (MasterListFragment) fragmentManager.findFragmentById(R.id.master_list_fragment_main);
+        masterListFragment = (MasterListFragment) fragmentManager.findFragmentById(R.id.master_list_fragment_main);
 
-        if(ServiceGenerator.LOCAL_LOGD)
-        Log.d(LOG_TAG, "su: sort By "+sort_by);
+        if (ServiceGenerator.LOCAL_LOGD)
+            Log.d(LOG_TAG, "su: onCreate ");
     }
 
     @Override
@@ -36,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu_main; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -51,20 +63,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         // Respond to the action bar's Up/Home button
         //no inspection Simplifiable If Statement
-
-       /*  if (id == R.id.action_popularity) {//Show Popular Movies
-           sort_by = ServiceGenerator.ORDER_POPULARITY;
-            masterListFragment.setRecipesBasedOnSortOrder(sort_by);
-            return true;
-        } else if (id == R.id.action_toprated) {//Show Top Rated Movies
-            sort_by = ServiceGenerator.ORDER_TOPRATED;
-            masterListFragment.setRecipesBasedOnSortOrder(sort_by);
-            return true;
-        } else if (id == R.id.action_favourite) {//Show Top Favourite Movies
-            sort_by = ServiceGenerator.ORDER_FAVOURITE;
-            masterListFragment.setRecipesBasedOnSortOrder(sort_by);
-            return true;
-        }*/
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

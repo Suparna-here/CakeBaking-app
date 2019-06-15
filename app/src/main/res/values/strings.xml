@@ -8,32 +8,14 @@
     <!-- Error messages-->
     <string name="recipe_list_error_message">An error has occurred. Please check internet connection and try again.</string>
     <string name="detail_error_message">Detail recipe data not available</string>
-    <string name="review_detail_error_message">Review data not available</string>
-    <string name="trailer_detail_error_message">Trailer data not available</string>
+
     <string name="error_message">No video url.</string>
 
-    <string name="movie_poster_in_details">Movie Poster with detail description</string>
-    <string name="release_date_label">Release Date :</string>
-    <string name="detail_release_date_text">Unknown</string>
-    <string name="vote_average_label">Vote Average :</string>
-    <string name="detail_vote_average_text">Unknown</string>
-    <string name="plot_synopsis_label">Plot Synopsis :</string>
-    <string name="detail_plot_synopsis_text">Unknown</string>
-    <string name="action_popularity">Sort on Popularity</string>
-    <string name="action_toprated">Sort on Top rated</string>
-    <string name="action_favourite">Sort on Favourite</string>
-    <string name="play_trailer">Play Video Trailer of the Movie</string>
-    <string name="favourite_marked">marked favourite by user</string>
-    <string name="reviewer_name_label">Name :</string>
-    <string name="review_content">Review Content :</string>
-    <string name="trailer_label">Trailer :</string>
-    <string name="review_label">Review :</string>
-    <string name="no_review">No reviews</string>
-    <string name="unable_to_play_trailer">"No Web Browser or application to play YouTube video url."</string>
+
     <string name="ingredients_label">Ingredients</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_view_text">There is no favourite recipe!</string>
-    <string name="add_ingredient_to_widget">Add ingredients of this recipe to home widget</string>
+    <string name="add_ingredient_to_widget">Add ingredients to home widget</string>
 
 </resources>

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.udacity.baking_app.R;
@@ -18,7 +17,7 @@ import java.util.List;
  * {@link RecipeDetailListDBAdapter} exposes a list of movie details to a
  * {@link RecyclerView}
  */
-public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetailListDBAdapter.RecipeDetailListDBAdapterViewHolder>{
+public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetailListDBAdapter.RecipeDetailListDBAdapterViewHolder> {
     private static final int VIEW_TYPE_REGULAR = 0;
     private static final int VIEW_TYPE_FAVOURITE = 1;
     private List<Step> mStepData;
@@ -36,18 +35,16 @@ public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetail
     /**
      * Cache of the children views for a movie grid item.
      */
-    public class RecipeDetailListDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public final ImageView dishImageIV;
+    public class RecipeDetailListDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         public final TextView dishNameTV;
         public final TextView servingsTV;
 
 
-
         public RecipeDetailListDBAdapterViewHolder(View view) {
             super(view);
-            dishImageIV = (ImageView) view.findViewById(R.id.iv_dish_image);
-            dishNameTV =(TextView)view.findViewById(R.id.tv_dish_name);
-            servingsTV=(TextView)view.findViewById(R.id.tv_servings);
+            dishNameTV = (TextView) view.findViewById(R.id.tv_dish_step);
+            servingsTV = (TextView) view.findViewById(R.id.tv_servings);
 
             // Call setOnClickListener on the view passed into the constructor (use 'this' as the OnClickListener)
             view.setOnClickListener(this);
@@ -71,6 +68,7 @@ public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetail
 
     /**
      * Returns the the layout id depending on whether the movie item is a normal item or the favourite movie item.
+     *
      * @param viewType
      * @return
      */
@@ -89,13 +87,7 @@ public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetail
     @Override
     public void onBindViewHolder(@NonNull RecipeDetailListDBAdapterViewHolder holder, int position) {
         Step step = mStepData.get(position);
-      /*  String posteUrl= ServiceGenerator.POSTER_URL+ recipe.getPoster_path();
-        Picasso.get()
-               .load(posteUrl)
-               .placeholder(R.mipmap.ic_launcher)
-               .into(holder.posterThumbnailIV);*/
         holder.dishNameTV.setText(step.getShortDescription());
-//        holder.servingsTV.setText(Integer.toString(recipe.getServings()));
     }
 
     @Override
@@ -107,8 +99,6 @@ public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetail
     @Override
     public int getItemViewType(int position) {
         return VIEW_TYPE_REGULAR;
-        /*if(sort_by.equals(ServiceGenerator.ORDER_POPULARITY) || sort_by.equals(ServiceGenerator.ORDER_TOPRATED))
-            return VIEW_TYPE_FAVOURITE;*/
     }
 
     /*

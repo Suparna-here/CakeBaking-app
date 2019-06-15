@@ -12,7 +12,7 @@
             android:id="@+id/widget_ingredient_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Flour"/>
@@ -21,5 +21,6 @@
             android:id="@+id/widget_ingredient_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             tools:text="10"/>
     </LinearLayout>

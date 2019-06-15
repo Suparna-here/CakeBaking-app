@@ -8,22 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- Create a new style "DetailActivity important Information Label Style" to group properties for the text views -->
+    <!-- Create a new style "MainActivity important Information Label Style" to group properties for the text views -->
     <style name="textImportantLabelStyle" parent="@android:style/TextAppearance.Large">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">serif"</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <!-- Create a new style "DetailActivity Label Style" to group properties for the text views -->
-    <style name="textLabelStyle" parent="@android:style/TextAppearance.Large">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:paddingLeft">18dp</item>
-        <item name="android:paddingRight">18dp</item>
-        <item name="android:textColor">@color/colorPrimaryDark</item>
+    <style name="textImportantText" parent="@style/textImportantLabelStyle">
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="textHeadingLabelStyle" parent="@style/textImportantLabelStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <!-- Create a new style "RecipeDetailListActivity Label Style" to group properties for the text views -->
+    <style name="textLabelStyle" parent="@style/textImportantLabelStyle">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- Create a new style "DetailActivity Text Style" to group properties for the text views -->
