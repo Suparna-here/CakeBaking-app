@@ -63,13 +63,6 @@ public class Ingredient implements Parcelable {
     }
 
     @Ignore
-    public Ingredient(float quantity, String measure, String ingredient) {
-        this.quantity = quantity;
-        this.measure = measure;
-        this.ingredient = ingredient;
-    }
-
-    @Ignore
     public Ingredient(float quantity, String measure, String ingredient, long recipe_id) {
         this.quantity = quantity;
         this.measure = measure;

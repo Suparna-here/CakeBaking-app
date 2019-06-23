@@ -146,7 +146,7 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
                     public void onClick(View v) {
                         Toast.makeText(getActivity(), R.string.add_ingredient_to_widget, Toast.LENGTH_LONG).show();
                         InjectorUtils.setSavedIngredientDetails(getActivity(), recipe_Id, recipe_Name);
-                        RecipeIngredientService.startActionUpdateIngredient(getActivity(), ingredientList);
+                        RecipeIngredientService.startActionUpdateIngredient(getActivity());
                     }
                 });
             }

@@ -25,7 +25,7 @@ public class InjectorUtils {
         AppExecutors executors = AppExecutors.getInstance();
         if(ServiceGenerator.LOCAL_LOGD)
         Log.d(LOG_TAG,"su: get an instance of TheRecipeDBRepository");
-        return TheRecipeDBRepository.getInstance(executors, database.recipesDao(), database.ingredientsDao(), database.stepsDao()); //
+        return TheRecipeDBRepository.getInstance(executors, database.recipesDao(), database.ingredientsDao(), database.stepsDao());
     }
 
    public static RecipeDetailViewModelFactory provideRecipeDetailListViewModelFactory(Context context, long recipe_Id) {

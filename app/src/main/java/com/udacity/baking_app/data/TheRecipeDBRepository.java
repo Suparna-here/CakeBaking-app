@@ -78,7 +78,7 @@ public class TheRecipeDBRepository {
         return mInstance.mRecipesDao.getListOfRecipes();
     }
 
-    public LiveData<Recipe> getRecipeByRecipeIdFromRepository(long recipe_Id) {
+    public Recipe getRecipeByRecipeIdFromRepository(long recipe_Id) {
         initializeData();
         return mInstance.mRecipesDao.getRecipeById(recipe_Id);
     }
@@ -86,6 +86,11 @@ public class TheRecipeDBRepository {
     public LiveData<List<Ingredient>> getIngredientsByRecipeIdFromRepository(long recipe_Id) {
         initializeData();
         return mInstance.mIngredientsDao.getIngredientsByRecipeId(recipe_Id);
+    }
+
+    public List<Ingredient> getIngredientsListByRecipeIdFromRepository(long recipe_Id) {
+        initializeData();
+        return mInstance.mIngredientsDao.getIngredientsListByRecipeId(recipe_Id);
     }
 
     public LiveData<List<Step>> getStepsByRecipeIdFromRepository(long recipe_Id) {

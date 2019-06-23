@@ -16,6 +16,9 @@ public interface IngredientsDao {
     @Query("SELECT * from Ingredient WHERE recipe_id=:recipe_id")
     LiveData<List<Ingredient>> getIngredientsByRecipeId(long recipe_id);
 
+    @Query("SELECT * from Ingredient WHERE recipe_id=:recipe_id")
+    List<Ingredient> getIngredientsListByRecipeId(long recipe_id);
+
     @Query("DELETE from Ingredient WHERE recipe_id=:recipe_id")
     void deleteIngredientsByRecipeId(long recipe_id);
 

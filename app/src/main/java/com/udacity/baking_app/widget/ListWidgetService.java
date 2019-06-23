@@ -7,6 +7,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.udacity.baking_app.R;
+import com.udacity.baking_app.data.TheRecipeDBRepository;
 import com.udacity.baking_app.data.database.Ingredient;
 import com.udacity.baking_app.data.network.ServiceGenerator;
 import com.udacity.baking_app.utils.InjectorUtils;
@@ -25,6 +26,7 @@ public class ListWidgetService extends RemoteViewsService {
 class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private Context mContext;
     private List<Ingredient> ingredientData;
+
     private static final String LOG_TAG = ListRemoteViewsFactory.class.getSimpleName();
 
     public ListRemoteViewsFactory(Context applicationContext) {
@@ -46,9 +48,12 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         if (recipeId != INVALID_RECIPE_ID) {
             if (ServiceGenerator.LOCAL_LOGD)
                 Log.d(LOG_TAG, "su: doing databse operation " + recipeId);
-            ingredientData = IngredientAppWidgetProvider.mIngredientsList;
+            TheRecipeDBRepository repository = InjectorUtils.provideRepository(mContext);
+            ingredientData = repository.getIngredientsListByRecipeIdFromRepository(recipeId);
+
+
             if (ServiceGenerator.LOCAL_LOGD)
-                Log.d(LOG_TAG, "su: onDataSetChanged Received Database data " + ingredientData.get(1).getIngredient());
+                Log.d(LOG_TAG, "su: onDataSetChanged Received Database data " + ingredientData);
         }
     }
 
@@ -67,25 +72,29 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: getViewAt1");
-        if (ingredientData == null) return null;
+        if (ingredientData == null || ingredientData.size() == 0) return null;
 
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.recipe_widget_ingredient_item);
         Ingredient ingredient = ingredientData.get(position);
         views.setTextViewText(R.id.widget_ingredient_name, ingredient.getIngredient());
 
-       /* StringBuffer stringBuffer = new StringBuffer();
+        String quantity = Float.toString(ingredient.getQuantity());
+        if (ServiceGenerator.LOCAL_LOGD)
+            Log.d(LOG_TAG, "su: Quantity" + quantity);
 
-        stringBuffer.append(" " + ingredient.getQuantity() + " " +
-                ingredient.getMeasure());*/
-
-
-        views.setTextViewText(R.id.widget_ingredient_amount, ingredient.getMeasure());
+        //Builing string to for the ingredient quantity and measure
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(quantity)
+                .append(" ")
+                .append(ingredient.getMeasure());
+        views.setTextViewText(R.id.widget_ingredient_amount, stringBuffer);
 
         // Fill in the onClick PendingIntent Template using the specific plant Id for each item individually
         if (ServiceGenerator.LOCAL_LOGD)
             Log.d(LOG_TAG, "su: getViewAt2 ");
 
         Intent fillInIntent = new Intent();
+
         views.setOnClickFillInIntent(R.id.container_item_layout, fillInIntent);
         return views;
     }

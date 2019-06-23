@@ -17,7 +17,7 @@ public interface RecipesDao {
     LiveData<List<Recipe>> getListOfRecipes();
 
     @Query("SELECT * from Recipe WHERE id=:Id")
-    LiveData<Recipe> getRecipeById(long Id);
+    Recipe getRecipeById(long Id);
 
     @Query("DELETE from Recipe")
     void deleteRecipe();
