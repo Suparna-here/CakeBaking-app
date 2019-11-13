@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
 
         <service
-            android:name=".widget.RecipeIngredientService" android:exported="true"></service>
+            android:name=".widget.RecipeIngredientService"
+            android:exported="true" />
 
         <receiver android:name=".widget.IngredientAppWidgetProvider">
             <intent-filter>
@@ -32,7 +33,6 @@
         <activity android:name=".ui.list.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,7 +46,6 @@
             android:name=".ui.detail.PlayerActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:parentActivityName=".ui.detail.RecipeDetailListActivity" />
-
 
     </application>
 

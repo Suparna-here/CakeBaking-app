@@ -14,15 +14,13 @@ public class ServiceGenerator {
     public static final long INVALID_RECIPE_ID = -1;
     public static final String INVALID_RECIPE_NAME = "";
 
-    public static final String INGREDIENT_LIST="ingredient_list";
-    public static final String INGREDIENT_Bundle="ingredient_bundle";
     public static final String ACTION_UPDATE_INGREDIENT = "com.udacity.baking_app.widget.action.update_recipe_ingredients";
     public static final String ACTION_UPDATE_RECIPE_WIDGETS = "com.udacity.baking_app.widget.action.update_recipe_widgets";
 
     public static final String EXTRA_BUNDLE = "extra_bundle";
     public static final String EXTRA_DATA = "extra_data";
 
-    public static final boolean LOCAL_LOGD=true;
+    public static final boolean LOCAL_LOGD=false;
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

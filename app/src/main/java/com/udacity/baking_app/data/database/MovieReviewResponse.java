@@ -52,7 +52,7 @@ public class MovieReviewResponse {
             return url;
         }
 
-        public Review(Parcel in) {
+        Review(Parcel in) {
             author = in.readString();
             content = in.readString();
             id = in.readString();

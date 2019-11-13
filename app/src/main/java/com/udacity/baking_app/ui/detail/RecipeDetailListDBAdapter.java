@@ -37,11 +37,11 @@ public class RecipeDetailListDBAdapter extends RecyclerView.Adapter<RecipeDetail
      */
     public class RecipeDetailListDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final TextView dishNameTV;
-        public final TextView servingsTV;
+        final TextView dishNameTV;
+        final TextView servingsTV;
 
 
-        public RecipeDetailListDBAdapterViewHolder(View view) {
+        RecipeDetailListDBAdapterViewHolder(View view) {
             super(view);
             dishNameTV = (TextView) view.findViewById(R.id.tv_dish_step);
             servingsTV = (TextView) view.findViewById(R.id.tv_servings);

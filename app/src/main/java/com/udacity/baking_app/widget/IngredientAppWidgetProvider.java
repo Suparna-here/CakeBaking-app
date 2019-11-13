@@ -26,9 +26,9 @@ import static com.udacity.baking_app.data.network.ServiceGenerator.EXTRA_DATA;
  * Implementation of App Widget functionality.
  */
 public class IngredientAppWidgetProvider extends AppWidgetProvider {
-    public static final String LOG_TAG = IngredientAppWidgetProvider.class.getSimpleName();
+    private static final String LOG_TAG = IngredientAppWidgetProvider.class.getSimpleName();
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, long recipeId, String recipeName, int appWidgetId) {
+    private static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, long recipeId, String recipeName, int appWidgetId) {
         RemoteViews rv = getIngredientListRemoteView(context, recipeId, recipeName);
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }

@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MasterListFragment masterListFragment;
 
-    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;

@@ -70,7 +70,7 @@ public class MovieTrailerResponse {
             return type;
         }
 
-        public Trailer( Parcel in){
+        Trailer(Parcel in){
             id=in.readString();
             iso_639_1=in.readString();
             iso_3166_1=in.readString();

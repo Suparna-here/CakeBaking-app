@@ -65,7 +65,7 @@ public class RecipeDetailMasterListFragment extends Fragment implements RecipeDe
     private TextView mRecipeErrorMessageDisplay;
     private PlayerFragment playerFragment;
 
-    public static final String LOG_TAG = RecipeDetailMasterListFragment.class.getSimpleName();
+    private static final String LOG_TAG = RecipeDetailMasterListFragment.class.getSimpleName();
 
 
     // Override onAttach to make sure that the container activity has implemented the callback

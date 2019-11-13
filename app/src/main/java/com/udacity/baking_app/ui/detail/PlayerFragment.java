@@ -68,7 +68,7 @@ public class PlayerFragment extends Fragment {
     private ImageView mNoVideoUrl;
     private boolean twoPane;
 
-    public static final String LOG_TAG = PlayerFragment.class.getSimpleName();
+    private static final String LOG_TAG = PlayerFragment.class.getSimpleName();
 
     // Override onAttach to make sure that the container activity has implemented the callback
     @Override

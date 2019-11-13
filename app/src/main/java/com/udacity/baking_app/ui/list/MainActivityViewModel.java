@@ -8,7 +8,7 @@ import com.udacity.baking_app.data.database.Recipe;
 
 import java.util.List;
 
-public class MainActivityViewModel extends ViewModel {
+class MainActivityViewModel extends ViewModel {
     public static final String LOG_TAG = MainActivityViewModel.class.getSimpleName();
     // recipe list the user is looking at
     private final LiveData<List<Recipe>> mRecipeList;

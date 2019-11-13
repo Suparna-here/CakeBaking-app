@@ -15,7 +15,7 @@ import static com.udacity.baking_app.data.network.ServiceGenerator.ACTION_UPDATE
 
 public class RecipeIngredientService extends IntentService {
 
-    public static final String LOG_TAG = RecipeIngredientService.class.getSimpleName();
+    private static final String LOG_TAG = RecipeIngredientService.class.getSimpleName();
 
 
     public RecipeIngredientService() {

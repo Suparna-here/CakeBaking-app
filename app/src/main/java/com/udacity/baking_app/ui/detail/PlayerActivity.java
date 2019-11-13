@@ -66,6 +66,7 @@ public class PlayerActivity extends AppCompatActivity {
             return;
         }
         setTitle(bundle.getString(ServiceGenerator.RECIPE_NAME));
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_video);
 

@@ -27,7 +27,7 @@ public class RecipeDetailListActivity extends AppCompatActivity {
     private boolean twoPane;
 
 
-    public static final String LOG_TAG = RecipeDetailListActivity.class.getSimpleName();
+    private static final String LOG_TAG = RecipeDetailListActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

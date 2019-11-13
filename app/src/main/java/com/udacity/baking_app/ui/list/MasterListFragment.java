@@ -56,7 +56,7 @@ public class MasterListFragment extends Fragment implements RecipeDBAdapter.Reci
 
     private TextView mRecipeErrorMessageDisplay;
 
-    public static final String LOG_TAG = MasterListFragment.class.getSimpleName();
+    private static final String LOG_TAG = MasterListFragment.class.getSimpleName();
 
 
     // Override onAttach to make sure that the container activity has implemented the callback

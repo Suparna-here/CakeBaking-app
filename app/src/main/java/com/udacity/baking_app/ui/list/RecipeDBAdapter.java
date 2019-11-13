@@ -40,12 +40,12 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
      * Cache of the children views for a recipe list/grid item.
      */
     public class RecipeDBAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView dishImageIV;
-        public final TextView dishNameTV;
-        public final TextView servingsTV;
+        final ImageView dishImageIV;
+        final TextView dishNameTV;
+        final TextView servingsTV;
 
 
-        public RecipeDBAdapterViewHolder(View view) {
+        RecipeDBAdapterViewHolder(View view) {
             super(view);
             dishImageIV = (ImageView) view.findViewById(R.id.iv_dish_image);
             dishNameTV = (TextView) view.findViewById(R.id.tv_dish_name);
@@ -75,7 +75,7 @@ public class RecipeDBAdapter extends RecyclerView.Adapter<RecipeDBAdapter.Recipe
      * Returns the the layout id depending on whether the movie item is a normal item or the favourite movie item.
      *
      * @param viewType
-     * @return
+     * @return layoutId
      */
     private int getLayoutIdByType(int viewType) {
         switch (viewType) {
