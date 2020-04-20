@@ -34,6 +34,7 @@ In this project you will:
 *   [Retrofit 2](https://github.com/square/retrofit) - Type-safe HTTP client for Android and Java by Square, Inc. 
 *   [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 *   [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+*   [Room](https://developer.android.com/topic/libraries/architecture/room)
 
 ## Screen Shots
 ### Phone
